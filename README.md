@@ -13,6 +13,7 @@ from nl5py import Schematic
 schematic = Schematic(f"{nl5_dir}/Examples/Transient/analog.nl5")
 ```
 
+## Basic modifications 
 You can modify the properties of circuit elements using the `set_value` method.
 
 ```python
@@ -26,6 +27,45 @@ The library will verify that commands are recieved by the NL5 DLL without errors
 schematic.set_value("C100", 2.1)  # C100 does not exist
 ```
 
+Since `C100` does not exist in the schematic, it will throw the following exception:
+
 ```
 Exception: NL5_SetValue: parameter C100 not found
+```
+## Modifying subcircuits
+
+## Transient Simulations
+
+Before a transient simulation is run, the user must ensure that the circuit includes all the traces (voltages, currents, powers, etc) that they want to observe.  Traces can be added programmatically using the `add_trace` method.
+
+```python
+schematic.add_trace(name="C1", trace_type="V")  # add the voltage on C1
+schematic.add_trace(name="C1", trace_type="I")  # add the current on C1
+```
+
+All of the NL5 trace types are supported via the following "trace_type" strings:
+
+| trace_type | Description |
+| ---------- | ----------- |
+| "V"        | Voltage     |
+| "I"        | Current     |
+| "P"        | Power       |
+| "Var"      | Variable    |
+| "Func"     | Function    |
+| "Data"     | Data        |
+
+If no trace type is specified, it defaults to "Function".
+
+```python
+schematic.add_trace(name="V(C2)")  		 # add the voltage on C1 via a function trace
+schematic.add_trace(name="V(C1)+V(C2)")  # add the sum of voltages on C1 and C2 via a function trace
+```
+
+
+
+
+Running a transient simulation is done using the `simulate_transient` method.
+
+```python
+schematic.set_value("C100", 2.1)  # C100 does not exist
 ```
