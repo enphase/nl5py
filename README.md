@@ -1,8 +1,8 @@
 # `nl5py`
 
-Python library for interfacing to the NL5 DLL based circuit simulator
+Python library for interfacing to the [NL5](https://sidelinesoft.com/nl5/) DLL based circuit simulator
 
-`nl5py` is a Python interface for modifying, simulating, and extracting data from NL5 schematics using the NL5 DLL circuit simulator.  There are plans in the future to also support the HTTP API for interfacing to open schmatics in the regular NL5 program.
+`nl5py` is a Python interface for modifying, simulating, and extracting data from NL5 schematics using the [NL5](https://sidelinesoft.com/nl5/) DLL circuit simulator.  There are plans in the future to also support the HTTP API for interfacing to open schmatics in the regular [NL5](https://sidelinesoft.com/nl5/) program.
 
 # Use
 
@@ -40,8 +40,6 @@ If you want to modify elements in a subcircuit, you must do so using the `set_te
 commands = ["C1 = 1", "C2 = 2"]
 schematic.set_text("X1", ",".join(commands))
 ```
-
-
 
 
 ## Transient Simulations
