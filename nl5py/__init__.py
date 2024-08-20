@@ -1,1 +1,1 @@
-from .schematic import Schematic
+from .schematic import Schematic, load_license

@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from .nl5 import *
+from .nl5_dll.commands import *
 import ctypes as ct
 
 # decorator which will check for NL5 errors
@@ -161,34 +161,3 @@ class Schematic:
     @check
     def saveas(self, filename):
         NL5_SaveAs(self.circuit, filename.encode())
-
-
-if __name__ == "__main__":
-
-    nl5_dir = "C:/Users/dzimmanck/Desktop/nl5"
-
-    from nl5py import Schematic
-
-    # open a schematic
-    schematic = Schematic(f"{nl5_dir}/Examples/Transient/analog.nl5")
-
-    # add traces
-    schematic.add_trace("V(1)")
-    schematic.add_trace("V(2)")
-    schematic.add_trace("V(3)")
-    schematic.add_trace("V(4)")
-    schematic.add_trace("V(5)")
-    schematic.saveas("analog2.nl5")
-
-    # run a transient simulation
-    schematic.simulate_transient(screen=20, step=1e-3)
-
-    # extract simulation data
-    data = schematic.get_data(traces=["V(1)", "V(2)", "V(3)", "V(4)", "V(5)"])
-    # plot
-    import matplotlib.pyplot as mp
-    from matplotlib.ticker import EngFormatter
-
-    ax = data.plot()
-    ax.xaxis.set_major_formatter(EngFormatter(unit="s"))
-    mp.show()

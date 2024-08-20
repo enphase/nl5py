@@ -1,0 +1,6 @@
+[build-system]
+requires = ["setuptools>=42"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.package-data]
+mypkg = ["nl5_dl.dll", "nl5_dl.h", "nl5_dl.lib"]  # include NL5 DLL files for device library generation

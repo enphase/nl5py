@@ -4,16 +4,29 @@ Python library for interfacing to the [NL5](https://sidelinesoft.com/nl5/) DLL b
 
 `nl5py` is a Python interface for modifying, simulating, and extracting data from NL5 schematics using the [NL5](https://sidelinesoft.com/nl5/) DLL circuit simulator.  There are plans in the future to also support the HTTP API for interfacing to open schmatics in the regular [NL5](https://sidelinesoft.com/nl5/) program.
 
-# Use
+## Loading NL5 License
+NL5 DLL can be used without a license, but will be limited to 20 components for tansient simulations.  If your schematic has more than 20 components and no license is detected, the following exception will be rauised when you attempt to run a transient simulation.
 
+```
+Exception: NL5_Simulate: Too many components for Demo version
+```
+
+There are two ways to include a license file.  Either simple place an nl5.nll file in the same directory as the schematic file you are loading/simulating, or use the `load_license()` function.
+
+```python
+from nl5py import load_license
+license_info = load_license("nl5.nll")
+```
+
+## Loading A Schematic
 The `Schematic` class is the primary interface class.  You initialize the class with a path to an existing NL5 schematic file, which will load this into the NL5 DLL.
 
 ```python
 from nl5py import Schematic
-schematic = Schematic(f"analog.nl5")
+schematic = Schematic("analog.nl5")
 ```
 
-## Basic modifications 
+## Modifying Circuit Parameters
 You can modify the properties of circuit elements using the `set_value` method.
 
 ```python
@@ -32,15 +45,23 @@ Since `C100` does not exist in the schematic, it will throw the following except
 ```
 Exception: NL5_SetValue: parameter C100 not found
 ```
-## Modifying subcircuits
+### Modifying Subcircuits
 
 If you want to modify elements in a subcircuit, you must do so using the `set_text` method and send all of the value changes as a string of comma deliminted commands.
 
 ```python
+# Change C1 and C2 in the subcircuit inside X1
 commands = ["C1 = 1", "C2 = 2"]
-schematic.set_text("X1", ",".join(commands))
+schematic.set_text("X1.Cmd", ",".join(commands))
 ```
 
+If you want to set a value that needs to be comma deliminited, such as a PWL value, the PWL section should be in quotes.
+
+```python
+# C1 is a PWL capacitor
+commands = ['C1.PWL = "1, 1, 2"', "C2 = 2"]
+schematic.set_text("X1.Cmd", ",".join(commands))
+```
 
 ## Transient Simulations
 
