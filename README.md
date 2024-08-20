@@ -18,7 +18,7 @@ from nl5py import load_license
 license_info = load_license("nl5.nll")
 ```
 
-## Loading A Schematic
+## Loading a Schematic
 The `Schematic` class is the primary interface class.  You initialize the class with a path to an existing NL5 schematic file, which will load this into the NL5 DLL.
 
 ```python
