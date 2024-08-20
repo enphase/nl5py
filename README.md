@@ -5,7 +5,7 @@ Python library for interfacing to the [NL5](https://sidelinesoft.com/nl5/) DLL b
 `nl5py` is a Python interface for modifying, simulating, and extracting data from NL5 schematics using the [NL5](https://sidelinesoft.com/nl5/) DLL circuit simulator.  There are plans in the future to also support the HTTP API for interfacing to open schmatics in the regular [NL5](https://sidelinesoft.com/nl5/) program.
 
 ## Loading NL5 License
-NL5 DLL can be used without a license, but will be limited to 20 components for tansient simulations.  If your schematic has more than 20 components and no license is detected, the following exception will be rauised when you attempt to run a transient simulation.
+NL5 DLL can be used without a license, but will be limited to 20 components for tansient simulations.  If your schematic has more than 20 components and no license is detected, the following exception will be raised when you attempt to run a transient simulation.
 
 ```
 Exception: NL5_Simulate: Too many components for Demo version
