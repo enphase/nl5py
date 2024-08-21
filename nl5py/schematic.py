@@ -64,6 +64,11 @@ class Schematic:
         NL5_Simulate(self.circuit, screen)
 
     @check
+    def continue_transient(self, screen, step):
+        NL5_SetStep(self.circuit, step)
+        NL5_Simulate(self.circuit, screen)
+
+    @check
     def add_trace(self, name, trace_type="Func"):
         # map the correct trace adding function
         func = {
