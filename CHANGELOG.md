@@ -10,8 +10,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 ### Changes
 ### Added
-Add a "continue_transient" feature, which allows user to continue a transient from where last one left off.
-Added a changelog
+-Add a "continue_transient" feature, which allows user to continue a transient from where last one left off.
+-Added a changelog
 
 ## v0.1.0
 
