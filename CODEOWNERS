@@ -1,0 +1,5 @@
+# Global owner
+*       @pleepleus
+
+# Require a review from legal if the deny file is modified in a pull request
+deny.toml    @enphase/legal
