@@ -19,7 +19,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="nl5py",
-    version="0.1.0",
+    version="0.1.2",
     author="Donny Zimmanck",
     author_email="dzimmanck@enphaseenergy.com",
     description="Python library for interfacing to the NL5 DLL based circuit simulator",
@@ -27,16 +27,20 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/enphase/nl5py",
     packages=setuptools.find_packages(),
+    package_data={
+        # Make sure the NL5 DLL is included in the package
+        "": ["*.dll", "*.h", "*.lib"],
+    },
     install_requires=["numpy>=1.21.3", "pandas>=2.2.2"],
     extras_require={
         "dev": [
             "pytest",
         ],
     },
-    python_requires=">=3.9",
+    python_requires=">=3.12",
     classifiers=[
         "Programming Language :: Python :: 3",
-        "License :: OSI Approved :: Apache Software License v2.0",
+        "License :: OSI Approved :: Apache Software License",
         "Operating System :: Microsoft :: Windows",
     ],
 )
