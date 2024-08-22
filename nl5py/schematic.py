@@ -43,7 +43,7 @@ class Schematic:
 
     @check
     def set_text(self, name, text):
-        NL5_SetText(self.circuit, name.encode(), text.encode())
+        NL5_SetText(self.circuit, f"{name}".encode(), text.encode())
 
     @check
     def get_value(self, name):
@@ -81,6 +81,11 @@ class Schematic:
         }[trace_type]
 
         func(self.circuit, name.encode())
+
+    @check
+    def delete_trace(self, name):
+        trace_number = self.get_trace_number(trace)
+        NL5_DeleteTrace(self.circuit, trace_number)
 
     @check
     def get_trace_number(self, trace):
