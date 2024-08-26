@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ### Fixed
+-Added "sort=True" to data concatenations so we have sorted time series data.
 ### Changes
 ### Added
 

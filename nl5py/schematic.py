@@ -118,7 +118,7 @@ class Schematic:
 
     def get_data(self, traces):
         return pd.concat(
-            [self.get_trace_data(trace) for trace in traces], axis=1
+            [self.get_trace_data(trace) for trace in traces], axis=1, sort=True
         ).ffill()
 
     @check
@@ -175,7 +175,7 @@ class Schematic:
     @check
     def get_ac_data(self, traces):
         return pd.concat(
-            [self.get_ac_trace_data(trace) for trace in traces], axis=1
+            [self.get_ac_trace_data(trace) for trace in traces], axis=1, sort=True
         ).ffill()
 
     @check
