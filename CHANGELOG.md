@@ -5,12 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+
 ## [Unreleased]
 
 ### Fixed
 ### Changes
 ### Added
 
+## v0.1.3
+
+### Fixed
+-Added "sort=True" to data concatenations so we have sorted time series data.
+### Changes
+-Updated NL5 DLLs to 3.14.65.26 which have 14 new API functions
+### Added
+-Add the NL5_GetTracesSize, NL5_GetTraceAt, and NL5_GetTraceName API commands
+-Add "get_trace_names" to get a list of existing trace names that have been added
+-Add "clear_traces" for deleting all existing traces
+-Add default traces for "get_data" which grabs data from all traces
 
 ## v0.1.2
 

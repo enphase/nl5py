@@ -19,7 +19,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="nl5py",
-    version="0.1.2",
+    version="0.1.3",
     author="Donny Zimmanck",
     author_email="dzimmanck@enphaseenergy.com",
     description="Python library for interfacing to the NL5 DLL based circuit simulator",

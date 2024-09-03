@@ -21,14 +21,14 @@
 //
 //---------------------------------------------------------------------------
 
-IMP_EXP char* NL5_GetError();
 IMP_EXP char* NL5_GetInfo();
+IMP_EXP char* NL5_GetError();
 IMP_EXP int NL5_GetLicense(char* name);
 
 IMP_EXP int NL5_Open(char* name);
-IMP_EXP int NL5_Close(int ncir);
 IMP_EXP int NL5_Save(int ncir);
 IMP_EXP int NL5_SaveAs(int ncir, char* name);
+IMP_EXP int NL5_Close(int ncir);
 
 IMP_EXP int NL5_GetValue(int ncir, char* name, double* v);
 IMP_EXP int NL5_SetValue(int ncir, char* name, double v);
@@ -41,13 +41,17 @@ IMP_EXP int NL5_SetParamValue(int ncir, int npar, double v);
 IMP_EXP int NL5_GetParamText(int ncir, int npar, char* text, int length);
 IMP_EXP int NL5_SetParamText(int ncir, int npar, char* text);
 
-IMP_EXP int NL5_GetTrace(int ncir, char* name);
 IMP_EXP int NL5_AddVTrace(int ncir, char* name);
 IMP_EXP int NL5_AddITrace(int ncir, char* name);
 IMP_EXP int NL5_AddPTrace(int ncir, char* name);
 IMP_EXP int NL5_AddVarTrace(int ncir, char* name);
 IMP_EXP int NL5_AddFuncTrace(int ncir, char* text);
-IMP_EXP int NL5_AddDataTrace(int ncir, char* text);	// New function 09/15/23 
+IMP_EXP int NL5_AddDataTrace(int ncir, char* name);	 
+
+IMP_EXP int NL5_GetTracesSize(int ncir);        // New function 08/28/24
+IMP_EXP int NL5_GetTraceAt(int ncir, int i);    // New function 08/28/24
+IMP_EXP int NL5_GetTrace(int ncir, char* name);
+IMP_EXP int NL5_GetTraceName(int ncir, int ntrace, char* name, int length);  // New function 08/28/24
 IMP_EXP int NL5_DeleteTrace(int ncir, int ntrace);
 
 IMP_EXP int NL5_SetTimeout(int ncir, int t);
@@ -59,15 +63,6 @@ IMP_EXP int NL5_SimulateInterval(int ncir, double interval);
 IMP_EXP int NL5_SimulateStep(int ncir);
 IMP_EXP int NL5_SaveIC(int ncir);
 
-IMP_EXP int NL5_GetDataSize(int ncir, int ntrace);
-IMP_EXP int NL5_GetDataAt(int ncir, int ntrace, int n, double* t, double* data);
-IMP_EXP int NL5_GetLastData(int ncir, int ntrace, double* t, double* data);
-IMP_EXP int NL5_GetData(int ncir, int ntrace, double t, double* data);
-IMP_EXP int NL5_DeleteOldData(int ncir);
-IMP_EXP int NL5_SaveData(int ncir, char* name);
-IMP_EXP int NL5_AddData(int ncir, int ntrace, double t, double v);  // New function 09/15/23 
-IMP_EXP int NL5_DeleteData(int ncir, int trace);  // New function 09/15/23 
-
 IMP_EXP int NL5_GetInput(int ncir, char* name);
 IMP_EXP int NL5_SetInputValue(int ncir, int nin, double v);
 IMP_EXP int NL5_SetInputLogicalValue(int ncir, int nin, int i);
@@ -75,10 +70,33 @@ IMP_EXP int NL5_GetOutput(int ncir, char* name);
 IMP_EXP int NL5_GetOutputValue(int ncir, int nout, double* v);
 IMP_EXP int NL5_GetOutputLogicalValue(int ncir, int nout, int* i);
 
-IMP_EXP int NL5_SetAC(int ncir, double from, double to, int points, int scale);  // New function 09/15/23 
-IMP_EXP int NL5_SetACSource(int ncir, char* name);  // New function 09/15/23 
-IMP_EXP int NL5_CalcAC(int ncir);
+IMP_EXP int NL5_GetDataSize(int ncir, int ntrace);
+IMP_EXP int NL5_GetDataAt(int ncir, int ntrace, int n, double* t, double* data);
+IMP_EXP int NL5_GetLastData(int ncir, int ntrace, double* t, double* data);
+IMP_EXP int NL5_GetData(int ncir, int ntrace, double t, double* data);
+IMP_EXP int NL5_DeleteOldData(int ncir);
+IMP_EXP int NL5_SaveData(int ncir, char* name);
+IMP_EXP int NL5_AddData(int ncir, int ntrace, double t, double v);   
+IMP_EXP int NL5_DeleteData(int ncir, int trace);   
+
+IMP_EXP int NL5_AddVACTrace(int ncir, char* name);       // New function 08/28/24
+IMP_EXP int NL5_AddIACTrace(int ncir, char* name);       // New function 08/28/24
+IMP_EXP int NL5_AddFuncACTrace(int ncir, char* text);    // New function 08/28/24
+IMP_EXP int NL5_AddZACTrace(int ncir);                   // New function 08/28/24
+IMP_EXP int NL5_AddGammaACTrace(int ncir);               // New function 08/28/24
+IMP_EXP int NL5_AddVSWRACTrace(int ncir);                // New function 08/28/24
+IMP_EXP int NL5_AddLoopACTrace(int ncir);                // New function 08/28/24
+
+IMP_EXP int NL5_GetACTracesSize(int ncir);               // New function 08/28/24
+IMP_EXP int NL5_GetACTraceAt(int ncir, int i);           // New function 08/28/24
 IMP_EXP int NL5_GetACTrace(int ncir, char* name);
+IMP_EXP int NL5_GetACTraceName(int ncir, int ntrace, char* name, int length);  // New function 08/28/24
+IMP_EXP int NL5_DeleteACTrace(int ncir, int ntrace);     // New function 08/28/24
+
+IMP_EXP int NL5_SetACSource(int ncir, char* name);        
+IMP_EXP int NL5_SetAC(int ncir, double from, double to, int points, int scale);   
+IMP_EXP int NL5_CalcAC(int ncir);
+
 IMP_EXP int NL5_GetACDataSize(int ncir, int ntrace);
 IMP_EXP int NL5_GetACDataAt(int ncir, int ntrace, int n, double* f, double* mag, double* phase);
 IMP_EXP int NL5_SaveACData(int ncir, char* name);

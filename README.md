@@ -90,6 +90,20 @@ schematic.add_trace(name="V(C2)")  		 # add the voltage on C1 via a function tra
 schematic.add_trace(name="V(C1)+V(C2)")  # add the sum of voltages on C1 and C2 via a function trace
 ```
 
+You can get a current list of traces using the "get_trace_names" method.
+
+```python
+traces = schematic.get_trace_names()
+print(traces)
+```
+
+You can clear all existing traces using the "clear_traces" method.
+
+```python
+schematic.clear_traces()
+print(traces)
+```
+
 Running a transient simulation is done using the `simulate_transient` method.
 
 ```python
@@ -100,6 +114,12 @@ After a simulation has completed, data can be extracted using get_data.
 
 ```python
 data = schematic.get_data(traces=["V(1)", "V(2)", "V(3)", "V(4)", "V(5)"])
+```
+
+If you simply want the data from all traces, you can run "get_data" with no arguments and traces will default to all traces currently added.
+
+```python
+data = schematic.get_data()
 ```
 
 The data is returned in the form of a [pandas](https://pandas.pydata.org/) [dataframe](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html).
