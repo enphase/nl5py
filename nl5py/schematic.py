@@ -101,7 +101,6 @@ class Schematic:
     def clear_traces(self):
         trace_number = NL5_GetTraceAt(self.circuit, 0)
         while trace_number>=0:
-            print(trace_number)
             NL5_DeleteTrace(self.circuit, trace_number)
             trace_number = NL5_GetTraceAt(self.circuit, 0) 
     @check
