@@ -68,6 +68,17 @@ class Schematic:
         NL5_SetStep(self.circuit, step)
         NL5_Simulate(self.circuit, screen)
 
+    def get_trace_names(self, length=100):
+        num_traces = NL5_GetTracesSize(self.circuit)
+        trace_names = num_traces*[""]
+        for i in range(num_traces):
+            trace_number = NL5_GetTraceAt(self.circuit, i)
+
+            trace_name = ct.create_string_buffer(length)
+            NL5_GetTraceName(self.circuit, trace_number, trace_name, length)
+            trace_names[i] = trace_name.value.decode("utf-8")
+        return trace_names
+
     @check
     def add_trace(self, name, trace_type="Func"):
         # map the correct trace adding function
@@ -80,13 +91,19 @@ class Schematic:
             "Data": NL5_AddDataTrace,
         }[trace_type]
 
-        func(self.circuit, name.encode())
+        func(self.circuit, f"{name}".encode())
 
     @check
     def delete_trace(self, name):
         trace_number = self.get_trace_number(trace)
         NL5_DeleteTrace(self.circuit, trace_number)
 
+    def clear_traces(self):
+        trace_number = NL5_GetTraceAt(self.circuit, 0)
+        while trace_number>=0:
+            print(trace_number)
+            NL5_DeleteTrace(self.circuit, trace_number)
+            trace_number = NL5_GetTraceAt(self.circuit, 0) 
     @check
     def get_trace_number(self, trace):
         return NL5_GetTrace(self.circuit, trace.encode())
@@ -116,10 +133,21 @@ class Schematic:
         # convert to a pandas series
         return pd.Series(index=data[0, :], data=data[1, :], name=trace)
 
-    def get_data(self, traces):
-        return pd.concat(
+    def get_data(self, traces=None, fill=True):
+        # if no traces are specified, assume user wants all traces
+        if traces is None:
+            traces = self.get_trace_names()
+
+        # concatenate the data into a single DataFrame
+        data = pd.concat(
             [self.get_trace_data(trace) for trace in traces], axis=1, sort=True
-        ).ffill()
+        )
+
+        if fill:
+            data.ffill(inplace=True)
+
+        return data
+
 
     @check
     def set_ac_source(self, name):
