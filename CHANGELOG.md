@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 -Added "sort=True" to data concatenations so we have sorted time series data.
 ### Changes
+-Updated NL5 DLLs to 3.14.65.26 which have 14 new API functions
 ### Added
 
 
