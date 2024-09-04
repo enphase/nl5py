@@ -9,8 +9,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ### Fixed
+-Now supports Python >= 3.8 ([issue-2](https://github.com/enphase/nl5py/issues/2))
 ### Changes
 ### Added
+-Add pytest tests
+-Add tox tests
 
 ## v0.1.3
 

@@ -70,7 +70,7 @@ class Schematic:
 
     def get_trace_names(self, length=100):
         num_traces = NL5_GetTracesSize(self.circuit)
-        trace_names = num_traces*[""]
+        trace_names = num_traces * [""]
         for i in range(num_traces):
             trace_number = NL5_GetTraceAt(self.circuit, i)
 
@@ -100,9 +100,10 @@ class Schematic:
 
     def clear_traces(self):
         trace_number = NL5_GetTraceAt(self.circuit, 0)
-        while trace_number>=0:
+        while trace_number >= 0:
             NL5_DeleteTrace(self.circuit, trace_number)
-            trace_number = NL5_GetTraceAt(self.circuit, 0) 
+            trace_number = NL5_GetTraceAt(self.circuit, 0)
+
     @check
     def get_trace_number(self, trace):
         return NL5_GetTrace(self.circuit, trace.encode())
@@ -146,7 +147,6 @@ class Schematic:
             data.ffill(inplace=True)
 
         return data
-
 
     @check
     def set_ac_source(self, name):

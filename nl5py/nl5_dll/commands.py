@@ -15,11 +15,7 @@
 from pathlib import Path
 import os
 import ctypes as ct
-from importlib.resources import files
-
-
-# load the library
-nl5_lib = ct.cdll.LoadLibrary(files(f"nl5py.nl5_dll").joinpath("nl5_dll.dll"))
+from . import nl5_lib
 
 
 def load_license(filepath):
@@ -131,25 +127,30 @@ def NL5_SetParamText(ncir, npar, text):
     nl5_lib.NL5_SetParamText.restype = ct.c_int
     return nl5_lib.NL5_SetParamText(ncir, npar, text)
 
+
 def NL5_GetTracesSize(ncir):
     nl5_lib.NL5_GetTracesSize.argtypes = [ct.c_int]
     nl5_lib.NL5_GetTracesSize.restype = ct.c_int
     return nl5_lib.NL5_GetTracesSize(ncir)
+
 
 def NL5_GetTraceAt(ncir, index):
     nl5_lib.NL5_GetTraceAt.argtypes = [ct.c_int, ct.c_int]
     nl5_lib.NL5_GetTraceAt.restype = ct.c_int
     return nl5_lib.NL5_GetTraceAt(ncir, index)
 
+
 def NL5_GetTrace(ncir, name):
     nl5_lib.NL5_GetTrace.argtypes = [ct.c_int, ct.c_char_p]
     nl5_lib.NL5_GetTrace.restype = ct.c_int
     return nl5_lib.NL5_GetTrace(ncir, name)
 
+
 def NL5_GetTraceName(ncir, ntrace, name, length):
     nl5_lib.NL5_GetTraceName.argtypes = [ct.c_int, ct.c_int, ct.c_char_p, ct.c_int]
     nl5_lib.NL5_GetTraceName.restype = ct.c_int
     return nl5_lib.NL5_GetTraceName(ncir, ntrace, name, length)
+
 
 def NL5_AddVTrace(ncir, name):
     nl5_lib.NL5_AddVTrace.argtypes = [ct.c_int, ct.c_char_p]

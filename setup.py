@@ -31,13 +31,13 @@ setuptools.setup(
         # Make sure the NL5 DLL is included in the package
         "": ["*.dll", "*.h", "*.lib"],
     },
-    install_requires=["numpy>=1.21.3", "pandas>=2.2.2"],
+    install_requires=["numpy", "pandas", "importlib-resources"],
     extras_require={
         "dev": [
             "pytest",
         ],
     },
-    python_requires=">=3.12",
+    python_requires=">=3.8",
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: Apache Software License",
