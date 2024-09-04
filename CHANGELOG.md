@@ -11,6 +11,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Changes
 ### Added
 
+## v0.1.5
+
+### Fixed
+-Add .so files to package data to Linux/macOS DLL libraries are included in package data
+### Changes
+### Added
+
 
 ## v0.1.4
 
