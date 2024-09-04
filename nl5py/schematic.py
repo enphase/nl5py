@@ -95,7 +95,7 @@ class Schematic:
 
     @check
     def delete_trace(self, name):
-        trace_number = self.get_trace_number(trace)
+        trace_number = self.get_trace_number(name)
         NL5_DeleteTrace(self.circuit, trace_number)
 
     def clear_traces(self):
@@ -151,6 +151,33 @@ class Schematic:
     @check
     def set_ac_source(self, name):
         NL5_SetACSource(self.circuit, name.encode())
+
+    @check
+    def add_ac_trace(self, name, trace_type="Func"):
+        # map the correct trace adding function
+        func = {
+            "V": NL5_AddVACTrace,
+            "I": NL5_AddIACTrace,
+            "Func": NL5_AddFuncACTrace,
+        }[trace_type]
+
+        func(self.circuit, f"{name}".encode())
+
+    @check
+    def add_z_trace(self):
+        NL5_AddZACTrace(self.circuit)
+
+    @check
+    def add_gamma_trace(self):
+        NL5_AddGammaACTrace(self.circuit)
+
+    @check
+    def add_vswr_trace(self):
+        NL5_AddVSWRACTrace(self.circuit)
+
+    @check
+    def add_loop_trace(self):
+        NL5_AddLoopACTrace(self.circuit)
 
     @check
     def simulate_ac(self, start_frequency, stop_frequency, num_points, log_scale=True):

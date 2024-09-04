@@ -5,15 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-
 ## [Unreleased]
 
 ### Fixed
--Now supports Python >= 3.8 ([issue-2](https://github.com/enphase/nl5py/issues/2))
+### Changes
+### Added
+
+
+## v0.1.4
+
+### Fixed
+-Now supports older versions of Python tested down to 3.8 ([issue-2](https://github.com/enphase/nl5py/issues/2))
+-Now supports Windows, Linux, and macOS
 ### Changes
 ### Added
 -Add pytest tests
 -Add tox tests
+-Add new AC functions NL5_AddVACTrace, NL5_AddIACTrace, NL5_AddFuncACTrace, NL5_AddZACTrace, NL5_AddGammaACTrace, NL5_AddVSWRACTrace, and NL5_AddLoopACTrace
+-Add new methods to Schematic() class to support the new AC trace add functions
 
 ## v0.1.3
 

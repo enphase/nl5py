@@ -364,6 +364,48 @@ def NL5_SetACSource(ncir, name):
     return nl5_lib.NL5_SetACSource(ncir, name)
 
 
+def NL5_AddVACTrace(ncir, name):
+    nl5_lib.NL5_AddVACTrace.argtypes = [ct.c_int, ct.c_char_p]
+    nl5_lib.NL5_AddVACTrace.restype = ct.c_int
+    return nl5_lib.NL5_AddVACTrace(ncir, name)
+
+
+def NL5_AddIACTrace(ncir, name):
+    nl5_lib.NL5_AddIACTrace.argtypes = [ct.c_int, ct.c_char_p]
+    nl5_lib.NL5_AddIACTrace.restype = ct.c_int
+    return nl5_lib.NL5_AddIACTrace(ncir, name)
+
+
+def NL5_AddFuncACTrace(ncir, name):
+    nl5_lib.NL5_AddFuncACTrace.argtypes = [ct.c_int, ct.c_char_p]
+    nl5_lib.NL5_AddFuncACTrace.restype = ct.c_int
+    return nl5_lib.NL5_AddFuncACTrace(ncir, name)
+
+
+def NL5_AddZACTrace(ncir):
+    nl5_lib.NL5_AddZACTrace.argtypes = [ct.c_int]
+    nl5_lib.NL5_AddZACTrace.restype = ct.c_int
+    return nl5_lib.NL5_AddZACTrace(ncir)
+
+
+def NL5_AddGammaACTrace(ncir):
+    nl5_lib.NL5_AddGammaACTrace.argtypes = [ct.c_int]
+    nl5_lib.AddGammaACTrace.restype = ct.c_int
+    return nl5_lib.NL5_AddGammaACTrace(ncir)
+
+
+def NL5_AddVSWRACTrace(ncir):
+    nl5_lib.NL5_AddVSWRACTrace.argtypes = [ct.c_int]
+    nl5_lib.NL5_AddVSWRACTrace.restype = ct.c_int
+    return nl5_lib.NL5_AddVSWRACTrace(ncir)
+
+
+def NL5_AddLoopACTrace(ncir):
+    nl5_lib.NL5_AddLoopACTrace.argtypes = [ct.c_int]
+    nl5_lib.NL5_AddLoopACTrace.restype = ct.c_int
+    return nl5_lib.NL5_AddLoopACTrace(ncir)
+
+
 def NL5_CalcAC(ncir):
     nl5_lib.NL5_CalcAC.argtypes = [ct.c_int]
     nl5_lib.NL5_CalcAC.restype = ct.c_int

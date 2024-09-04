@@ -23,17 +23,13 @@ def get_library(operating_system):
             str(files(f"nl5py.nl5_dll.Windows").joinpath("nl5_dll.dll"))
         )
     elif "Linux" in operating_system:
-        if "WSL2" in operating_system:
+        try:
             return ct.cdll.LoadLibrary(
-                str(files(f"nl5py.nl5_dll.Linux.Ubuntu").joinpath("nl5_dll.dll"))
+                str(files(f"nl5py.nl5_dll.Linux.Ubuntu").joinpath("nl5_dll.so"))
             )
-        elif "Ubuntu" in operating_system:
+        except OSError:
             return ct.cdll.LoadLibrary(
-                str(files(f"nl5py.nl5_dll.Linux.Ubuntu").joinpath("nl5_dll.dll"))
-            )
-        elif "Red Hat" in operating_system:
-            return ct.cdll.LoadLibrary(
-                str(files(f"nl5py.nl5_dll.Linux.RHEL").joinpath("nl5_dll.dll"))
+                str(files(f"nl5py.nl5_dll.Linux.RHEL").joinpath("nl5_dll.so"))
             )
     elif "Darwin" in operating_system:
         if "arm" in operating_system:
