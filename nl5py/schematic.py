@@ -64,9 +64,21 @@ class Schematic:
         NL5_Simulate(self.circuit, screen)
 
     @check
+    def simulate_interval(self, screen, step):
+        NL5_SetStep(self.circuit, step)
+        NL5_Start(self.circuit)
+        NL5_SimulateInterval(self.circuit, screen)
+
+    @check
     def continue_transient(self, screen, step):
         NL5_SetStep(self.circuit, step)
         NL5_Simulate(self.circuit, screen)
+
+    @check
+    def continue_interval(self, screen, step):
+        NL5_SetStep(self.circuit, step)
+        NL5_SimulateInterval(self.circuit, screen)
+    
 
     def get_trace_names(self, length=100):
         num_traces = NL5_GetTracesSize(self.circuit)
@@ -115,6 +127,16 @@ class Schematic:
         t = ct.c_double()
         data = ct.c_double()
         NL5_GetDataAt(self.circuit, trace_number, n, t, data)
+
+        return t.value, data.value
+    
+    @check
+    def get_last_data(self, trace):
+        trace_number = self.get_trace_number(trace)
+
+        t = ct.c_double()
+        data = ct.c_double()
+        NL5_GetLastData(self.circuit, trace_number, t, data)
 
         return t.value, data.value
 
