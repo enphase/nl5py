@@ -41,3 +41,24 @@ def test_simulation():
     assert data["V(C1)"].iloc[0] < 0.1
     assert data["V(C1)"].iloc[-1] < 0.634
     assert data["V(C1)"].iloc[-1] > 0.631
+
+
+from pytest import approx
+def test_simulate_interval():
+    screen1 = 1.2  # define the value of screen
+    schematic.set_value("V1", 1)
+    schematic.set_value("C1", 1)
+    schematic.set_value("R1", 1)
+    schematic.set_value("C1.IC", 0)
+    schematic.clear_traces()
+    schematic.add_trace("V(C1)")
+    schematic.simulate_interval(screen=screen1, step=1e-3)
+    data = schematic.get_data()
+    assert data.index[-1] == approx(screen1, rel=1e-5)
+
+    screen2 = 1/6
+    schematic.continue_interval(screen=screen2, step=1e-3)
+    data = schematic.get_data()
+    assert data.index[-1] == approx(screen1 + screen2, rel=1e-5)
+    print(f'total screen =  {data.index[-1]}')
+    print(f'data value = {data["V(C1)"].iloc[-1]}') 
