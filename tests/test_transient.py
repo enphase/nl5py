@@ -62,3 +62,16 @@ def test_simulate_interval():
     assert data.index[-1] == approx(screen1 + screen2, rel=1e-5)
     print(f'total screen =  {data.index[-1]}')
     print(f'data value = {data["V(C1)"].iloc[-1]}') 
+
+def test_get_last_data():
+    schematic.set_value("V1", 1)
+    schematic.set_value("C1", 1)
+    schematic.set_value("R1", 1)
+    schematic.set_value("C1.IC", 0)
+    schematic.clear_traces()
+    schematic.add_trace("V(C1)")
+    schematic.simulate_transient(screen=1, step=1e-3)
+    data = schematic.get_data()
+    print(data["V(C1)"].iloc[-1])
+    print(schematic.get_last_data("V(C1)"))
+    assert data["V(C1)"].iloc[-1] == schematic.get_last_data("V(C1)")[-1]
