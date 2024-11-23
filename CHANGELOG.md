@@ -10,8 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 ### Changes
 ### Added
--Add support for methods simulate_interval, continue_interval, and get_last_data
--Add pytests for methods simulate_interval, continue_interval, and get_last_data
+-Add support for methods simulate_interval, continue_interval, and get_last_data with associated pytests
 
 ## v0.1.5
 
