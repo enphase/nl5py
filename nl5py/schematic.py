@@ -261,3 +261,42 @@ class Schematic:
     @check
     def saveas(self, filename):
         NL5_SaveAs(self.circuit, filename.encode())
+    
+def set_analog_filter_params(name: str, *, sos=None, a=None, b=None):
+    """
+    Configure an analog filter using a specified name and either second-order sections (sos) 
+    or polynomial coefficients (a, b).
+
+    Parameters:
+    - name (str): A string representing the name of the filter (e.g., "lowpass").
+    - sos (array-like, optional): Second-order sections array (e.g., output of scipy.signal functions).
+    - a (array-like, optional): Denominator polynomial coefficients.
+    - b (array-like, optional): Numerator polynomial coefficients.
+
+    Raises:
+    - ValueError: If both or neither of 'sos' and ('a', 'b') are provided.
+    """
+    # Validate name
+    if not isinstance(name, str) or not name.strip():
+        raise ValueError("Filter name must be a non-empty string.")
+
+    # Ensure only one of `sos` or `a` and `b` is provided
+    if sos is not None and (a is not None or b is not None):
+        raise ValueError("Provide either 'sos' or both 'a' and 'b', not both.")
+    if sos is None and (a is None or b is None):
+        raise ValueError("Provide either 'sos' or both 'a' and 'b'.")
+
+    # Determine filter type
+    filter_type = "SOS-based" if sos is not None else "Polynomial-based"
+    print(f"Configuring analog {filter_type} filter named '{name}'.")
+
+    # Determine Filter order
+    order = len(a) if a is not None else len(sos)
+    print(f'order = {order}')
+
+    # Example logic: Print parameters for debugging (replace with real configuration)
+    if sos is not None:
+        print(f"SOS: {sos}")
+    else:
+        print(f"Numerator coefficients (b): {b}")
+        print(f"Denominator coefficients (a): {a}")
