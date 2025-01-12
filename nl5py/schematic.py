@@ -262,13 +262,13 @@ class Schematic:
     def saveas(self, filename):
         NL5_SaveAs(self.circuit, filename.encode())
     
-    def set_analog_filter_params(name: str, *, sos=None, a=None, b=None):
+    def set_analog_filter_params(self,name: str, *, sos=None, a=None, b=None):
         """
         Configure an analog filter using a specified name and either second-order sections (sos) 
         or polynomial coefficients (a, b).
 
         Parameters:
-        - name (str): A string representing the name of the filter (e.g., "lowpass").
+        - name (str): A string representing the name of the F(s) function block in NL5 (e.g. "F1").
         - sos (array-like, optional): Second-order sections array (e.g., output of scipy.signal functions).
         - a (array-like, optional): Denominator polynomial coefficients.
         - b (array-like, optional): Numerator polynomial coefficients.
