@@ -279,10 +279,6 @@ class Schematic:
             if sos.shape != (1, 6):
                 raise ValueError("SOS must be a matrix with 1 row and 6 elements.")
 
-        # Ensure all elements are numerical
-        if not all(isinstance(x, (int, float)) for x in sos):
-            raise ValueError("All elements in SOS must be numerical (int or float).")
-
         # Set the filter parameters
         self.set_value(name + ".b0", sos[0][2])
         self.set_value(name + ".b1", sos[0][1])
