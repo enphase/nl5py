@@ -278,19 +278,16 @@ class Schematic:
         if isinstance(sos, np.ndarray):
             if sos.shape != (1, 6):
                 raise ValueError("SOS must be a matrix with 1 row and 6 elements.")
-            sos = sos.flatten()  # Flatten the matrix to a 1D array
-        elif len(sos) != 6:
-            raise ValueError("SOS must be a list with 6 elements.")
 
         # Ensure all elements are numerical
         if not all(isinstance(x, (int, float)) for x in sos):
             raise ValueError("All elements in SOS must be numerical (int or float).")
 
         # Set the filter parameters
-        self.set_value(name + ".b0", sos[0])
-        self.set_value(name + ".b1", sos[1])
-        self.set_value(name + ".b2", sos[2])
-        self.set_value(name + ".a0", sos[3])
-        self.set_value(name + ".a1", sos[4])
-        self.set_value(name + ".a2", sos[5])
+        self.set_value(name + ".b0", sos[0][2])
+        self.set_value(name + ".b1", sos[0][1])
+        self.set_value(name + ".b2", sos[0][0])
+        self.set_value(name + ".a0", sos[0][5])
+        self.set_value(name + ".a1", sos[0][4])
+        self.set_value(name + ".a2", sos[0][3])
 
