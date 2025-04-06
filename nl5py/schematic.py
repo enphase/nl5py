@@ -262,5 +262,35 @@ class Schematic:
     def saveas(self, filename):
         NL5_SaveAs(self.circuit, filename.encode())
     
-    def set_analog_filter_params(self, name, sos):
-        self.set_value(name+".a0", sos[0])
+def set_analog_filter_params(self, name, **kwargs):
+    """
+    Set analog filter parameters using either an SOS 2nd-order matrix
+    or b and a coefficients up to order 5.
+
+    Args:
+        name (str): The base name of the filter.
+        kwargs: Either:
+            - sos: A single row of 6 elements [b0, b1, b2, a0, a1, a2].
+            - b: List of b coefficients [b0, b1, b2, b3, b4, b5].
+            - a: List of a coefficients [a0, a1, a2, a3, a4, a5].
+    """
+    if "sos" in kwargs:
+        sos = kwargs["sos"]
+        if len(sos) != 6:
+            raise ValueError("SOS must be a list of 6 elements: [b0, b1, b2, a0, a1, a2].")
+        self.set_value(name + ".b0", sos[0])
+        self.set_value(name + ".b1", sos[1])
+        self.set_value(name + ".b2", sos[2])
+        self.set_value(name + ".a0", sos[3])
+        self.set_value(name + ".a1", sos[4])
+        self.set_value(name + ".a2", sos[5])
+    else:
+        b = kwargs.get("b", [])
+        a = kwargs.get("a", [])
+        if len(b) > 6 or len(a) > 6:
+            raise ValueError("b and a coefficients must not exceed order 5 (6 elements).")
+        for i, coeff in enumerate(b):
+            self.set_value(f"{name}.b{i}", coeff)
+        for i, coeff in enumerate(a):
+            self.set_value(f"{name}.a{i}", coeff)
+
