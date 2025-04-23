@@ -261,3 +261,29 @@ class Schematic:
     @check
     def saveas(self, filename):
         NL5_SaveAs(self.circuit, filename.encode())
+    
+    def set_filter_params_sos(self, name, sos):
+        """
+        name is the name of the F(s) or F(z) block in the NL5 schematic.
+        sos is a matrix with 1 row and 6 numerical elements: [b0, b1, b2, a0, a1, a2].
+        Normally these coefficients are calculated using the scipy.signal.  This 
+        function transfers the caclculated coefficients to the NL5 schematic.
+        """
+
+        # Ensure sos is a list or numpy array
+        if not isinstance(sos, (list, np.ndarray)):
+            raise TypeError("SOS must be a list or numpy array.")
+
+        # Ensure sos has exactly 1 row and 6 elements
+        if isinstance(sos, np.ndarray):
+            if sos.shape != (1, 6):
+                raise ValueError("SOS must be a matrix with 1 row and 6 elements.")
+
+        # Set the filter parameters
+        self.set_value(name + ".b0", sos[0][2])
+        self.set_value(name + ".b1", sos[0][1])
+        self.set_value(name + ".b2", sos[0][0])
+        self.set_value(name + ".a0", sos[0][5])
+        self.set_value(name + ".a1", sos[0][4])
+        self.set_value(name + ".a2", sos[0][3])
+
