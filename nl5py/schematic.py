@@ -262,28 +262,47 @@ class Schematic:
     def saveas(self, filename):
         NL5_SaveAs(self.circuit, filename.encode())
     
-    def set_filter_params_sos(self, name, sos):
+    @check
+    def load_filter_params(self, name, b, a, analog=True):
         """
         name is the name of the F(s) or F(z) block in the NL5 schematic.
-        sos is a matrix with 1 row and 6 numerical elements: [b0, b1, b2, a0, a1, a2].
-        Normally these coefficients are calculated using the scipy.signal.  This 
-        function transfers the caclculated coefficients to the NL5 schematic.
+        b is an array of the numerator values and a is an array of the demonitaor
+        values. Normally these coefficients are calculated using functions from scipy.signal.
+        This function transfers the caclculated coefficients to the NL5 schematic.
         """
 
-        # Ensure sos is a list or numpy array
-        if not isinstance(sos, (list, np.ndarray)):
-            raise TypeError("SOS must be a list or numpy array.")
+        # Ensure 'analog' is a boolean and either True or False
+        if not isinstance(analog, bool):
+            raise TypeError("analog must be a boolean (True or False).")
 
-        # Ensure sos has exactly 1 row and 6 elements
-        if isinstance(sos, np.ndarray):
-            if sos.shape != (1, 6):
-                raise ValueError("SOS must be a matrix with 1 row and 6 elements.")
+        # Ensure 'a' and 'b' are list or numpy array
+        if not isinstance(a, (list, np.ndarray)):
+            raise TypeError("'a' must be a list or numpy array.")
+        if not isinstance(b, (list, np.ndarray)):
+            raise TypeError("'b' must be a list or numpy array.")
 
-        # Set the filter parameters
-        self.set_value(name + ".b0", sos[0][2])
-        self.set_value(name + ".b1", sos[0][1])
-        self.set_value(name + ".b2", sos[0][0])
-        self.set_value(name + ".a0", sos[0][5])
-        self.set_value(name + ".a1", sos[0][4])
-        self.set_value(name + ".a2", sos[0][3])
+        # Ensure 'a' and 'b' have the same length
+        if len(a) != len(b):
+            raise ValueError("'a' and 'b' must have the same length.")
+
+        # Ensure length is between 1 and 5
+        if not (1 <= len(a) <= 5):
+            raise ValueError("Length of 'a' and 'b' must be between 1 and 5.")
+        
+        # Set the model type according to the length of a/b
+        self.set_text(f"{name}.model", f"Poly{len(a)}")
+
+        # Set the filter parameters dynamically
+        if analog:
+            # Reverse order for analog
+            for i in range(len(b)):
+                self.set_value(f"{name}.b{i}", b[len(b) - 1 - i])
+            for i in range(len(a)):
+                self.set_value(f"{name}.a{i}", a[len(a) - 1 - i])
+        else:
+            # Normal order for digital
+            for i in range(len(b)):
+                self.set_value(f"{name}.b{i}", b[i])
+            for i in range(len(a)):
+                self.set_value(f"{name}.a{i}", a[i])
 
