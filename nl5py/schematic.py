@@ -291,7 +291,7 @@ class Schematic:
         
         # Set the model type according to the length of a/b
         model = "Poly" + str(len(a))
-        self.set_text(name, model)
+        self.set_text(name + ".model", model)
         print(f'model set = {model}')
         print(f'model read = {self.get_text(name + ".model")}')
 
