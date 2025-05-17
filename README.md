@@ -170,8 +170,8 @@ print(data.head())
 1799.359872  0.032566  178.419447       0.032566  178.419447
 ```
 
-## Working with filters
-The [scipy.signal](https://scipy.org/) library has many powerful filtering functions.  These produce the transfer function coefficients that can be used with the F(s) and F(z) function components in NL5.  The method 'load_filter_params' is used to assign the numerators coefficients (the b's) and the denominator coefficients (the a's) to the NL5 component F(s) or F(z).  The order of the filter must not exceed 5.  
+## Working with Filters
+The [scipy.signal](https://scipy.org/) library has many powerful filtering functions.  These produce the transfer function coefficients that can be used with the F(s) and F(z) function components in NL5.  The method 'load_filter_params' is used to assign the numerators coefficients (the b's) and the denominator coefficients (the a's) to the NL5 component F(s) or F(z).  At present, only the 'ba' output format is supported.  'zpk' and 'sos' output formats are not directly supported.
 
 ### Method Prototype:  
 load_filter_params(self, name, b, a, analog=True)
@@ -190,7 +190,7 @@ The user must take care not to assign coefficients from analog filter to the F(z
 
 In the case of a digital filter, the user is reminded to set the z paramter in the advanced settings in NL5.
 
-The maximum order of a filter is 5
+The maximum order of a filter is 5.  This is a limitation of the NL5 components F(s) and F(z)
 
 ### Analog Filter Example 
 ```python
