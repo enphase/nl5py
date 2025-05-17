@@ -288,19 +288,7 @@ class Schematic:
         # Ensure length is between 1 and 5
         if not (1 <= len(a) <= 6):
             raise ValueError("Length of 'a' and 'b' must be between 1 and 5.")
-        
-        try:
-            self.set_text(name + ".model", "Roots")
-            if not analog:
-                print("Should fail in digital mode, but did not!")  # Debug print
-                raise RuntimeError("set_text(name + '.model', 'Roots') succeeded in digital mode, but should have failed.")
-        except Exception as e:
-            if analog:
-                raise RuntimeError(f"set_text(name + '.model', 'Roots') failed in analog mode: {e}")
-            else:
-                print(f"set_text failed as expected in digital mode: {e}")
 
-        
         # Set the model type according to the length of a/b
         model = "Poly" + str(len(a) - 1)
         self.set_text(name + ".model", model)
