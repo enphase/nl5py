@@ -293,13 +293,15 @@ class Schematic:
         try:
             self.set_text(name + ".model", "Roots")
             if not analog:
-                raise RuntimeError("set_text should fail if analog is False, but it did not.")
+                # It should NOT succeed in digital mode
+                raise RuntimeError("set_text(name + '.model', 'Roots') succeeded in digital mode, but should have failed.")
         except Exception as e:
             if analog:
-                # If analog is True, we do not expect an exception
-                raise
+                # It should NOT fail in analog mode
+                raise RuntimeError(f"set_text(name + '.model', 'Roots') failed in analog mode: {e}")
             else:
-                print(f"set_text failed as expected for digital mode: {e}")
+                # It failed in digital mode, which is expected
+                pass
 
         
         # Set the model type according to the length of a/b
