@@ -292,6 +292,7 @@ class Schematic:
         # Set the model type according to the length of a/b
         model = "Poly" + str(len(a))
         self.set_text(name, model)
+        print(f'model = {model}')
 
        # Set the filter parameters dynamically
         if analog:
