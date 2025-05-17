@@ -171,16 +171,18 @@ print(data.head())
 ```
 
 ## Working with filters
-The [scipy.signal](https://scipy.org/) library has many powerful filtering functions.  These produce the transfer function coefficients that can be used with the F(s) and F(z) function components in NL5.  The method 'load_filter_params' is used to assign the numerators coefficients (the b's) and the denominator coefficients (the a's) to the NL5 component F(s) or F(z).  The order of the filter must need exceed 5.  
+The [scipy.signal](https://scipy.org/) library has many powerful filtering functions.  These produce the transfer function coefficients that can be used with the F(s) and F(z) function components in NL5.  The method 'load_filter_params' is used to assign the numerators coefficients (the b's) and the denominator coefficients (the a's) to the NL5 component F(s) or F(z).  The order of the filter must not exceed 5.  
 
 ### Method Prototype:  
-load_filter_params(self, name='F1', b=b, a=a, analog=True)
+load_filter_params(self, name, b, a, analog=True)
 
 'name' is the name of the NL5 component F(s) or F(z), such as 'F1'
 
 'b' are the numerator coefficients of the filter
 
 'a' are the denominator coefficients of the filter
+
+'analog' determines whether the coefficients a and b are for an analog or digital filter
 
 ### Notes
 
