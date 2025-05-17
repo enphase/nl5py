@@ -281,10 +281,6 @@ class Schematic:
         if not isinstance(b, (list, np.ndarray)):
             raise TypeError("'b' must be a list or numpy array.")
 
-        # Ensure 'a' and 'b' have the same length
-        if len(a) != len(b):
-            raise ValueError("'a' and 'b' must have the same length.")
-
         # Ensure length is between 1 and 5
         if not (1 <= len(a) <= 6):
             raise ValueError("Length of 'a' and 'b' must be between 1 and 5.")
