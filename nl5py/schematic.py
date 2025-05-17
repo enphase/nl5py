@@ -298,7 +298,8 @@ class Schematic:
             if analog:
                 raise RuntimeError(f"set_text(name + '.model', 'Roots') failed in analog mode: {e}")
             else:
-                pass # This is expected in digital mode
+                print(f"set_text failed as expected in digital mode: {e}")
+                raise  # <-- This will end the program in digital mode if the test fails
 
         
         # Set the model type according to the length of a/b
