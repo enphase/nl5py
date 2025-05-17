@@ -263,7 +263,7 @@ class Schematic:
         NL5_SaveAs(self.circuit, filename.encode())
     
     @check
-    def load_filter_params(self, name='F1', b=b, a=a, analog=True):
+    def load_filter_params(self, name, b, a, analog=True):
         """
         name is the name of the F(s) or F(z) block in the NL5 schematic.
         b is an array of the numerator values and a is an array of the demonitaor
