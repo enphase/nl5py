@@ -289,6 +289,10 @@ class Schematic:
         if not (1 <= len(a) <= 6):
             raise ValueError("Length of 'a' and 'b' must be between 1 and 5.")
         
+        # Test to see if F(s) block is present if analog is True
+        if analog:
+            self.set_text(name + ".roots", "")
+        
         # Set the model type according to the length of a/b
         model = "Poly" + str(len(a) - 1)
         self.set_text(name + ".model", model)
