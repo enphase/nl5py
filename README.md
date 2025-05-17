@@ -169,3 +169,45 @@ print(data.head())
 1599.519904  0.025496  178.595105       0.025496  178.595105
 1799.359872  0.032566  178.419447       0.032566  178.419447
 ```
+
+## Working with filters
+The [scipy.signal](https://scipy.org/) library has many powerful filtering functions.  These produce the transfer function coefficients that can be used with the F(s) and F(z) function components in NL5.  The method 'load_filter_params' is used to assign the numerators coefficients (the b's) and the denominator coefficients (the a's) to the NL5 component F(s) or F(z).  The order of the filter must need exceed 5.  
+
+### Method Prototype:  
+load_filter_params(self, name='F1', b=b, a=a, analog=True)
+
+'name' is the name of the NL5 component F(s) or F(z), such as 'F1'
+
+'b' are the numerator coefficients of the filter
+
+'a' are the denominator coefficients of the filter
+
+### Notes
+
+The user must take care not to assign coefficients from analog filter to the F(z) component nor coefficients from a digital filter to the F(s) component.
+
+In the case of a digital filter, the user is reminded to set the z paramter in the advanced settings in NL5.
+
+The maximum order of a filter is 5
+
+### Analog Filter Example 
+```python
+lowcut = 100e3
+highcut = 200e3
+Wn = [2*np.pi*lowcut, 2*np.pi*highcut]
+
+b, a = sl.butter(2, Wn=Wn, btype='bandpass', analog=True)
+schematic.load_filter_params(name='F1', b=b, a=a, analog=True)
+schematic.save()
+```
+
+### Digital Filter Example 
+```python
+fs = 1e6
+cutoff = 100e3
+Wn = cutoff / (fs / 2)  # Normalize cutoff to Nyquist
+
+b, a = sl.butter(2, Wn=Wn, btype='lp', output='ba', analog=False)
+schematic.load_filter_params(name='F2', b=b, a=a, analog=True)
+schematic.save()
+```
