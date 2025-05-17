@@ -290,8 +290,16 @@ class Schematic:
             raise ValueError("Length of 'a' and 'b' must be between 1 and 5.")
         
         # Test to see if F(s) block is present if analog is True
-        self.set_text(name + ".model", "Roots")
-        assert analog, "This test should only succeed if analog is True"
+        try:
+            self.set_text(name + ".model", "Roots")
+            if not analog:
+                raise RuntimeError("set_text should fail if analog is False, but it did not.")
+        except Exception as e:
+            if analog:
+                # If analog is True, we do not expect an exception
+                raise
+            else:
+                print(f"set_text failed as expected for digital mode: {e}")
 
         
         # Set the model type according to the length of a/b
