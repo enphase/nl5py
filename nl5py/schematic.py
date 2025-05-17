@@ -290,20 +290,21 @@ class Schematic:
             raise ValueError("Length of 'a' and 'b' must be between 1 and 5.")
         
         # Set the model type according to the length of a/b
-        model = "Poly" + str(len(a)+1)
+        model = "Poly" + str(len(a))
         self.set_text(name, model)
 
         # Set the filter parameters dynamically
+        num_coeff = len(a) + 1
         if analog:
             # Reverse order for analog
-            for i in range(len(b)):
+            for i in range(num_coeff):
                 self.set_value(f"{name}.b{i}", b[len(b) - 1 - i])
-            for i in range(len(a)):
+            for i in range(num_coeff):
                 self.set_value(f"{name}.a{i}", a[len(a) - 1 - i])
         else:
             # Normal order for digital
-            for i in range(len(b)):
+            for i in range(num_coeff):
                 self.set_value(f"{name}.b{i}", b[i])
-            for i in range(len(a)):
+            for i in range(num_coeff):
                 self.set_value(f"{name}.a{i}", a[i])
 
