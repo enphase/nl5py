@@ -287,7 +287,12 @@ class Schematic:
         
         # Zero pad b if shorter than a
         if len(b) < len(a):
-            b = list(b) + [0.0] * (len(a) - len(b))
+            if analog:
+                # Pad zeros at the front for analog (reverse order)
+                b = [0.0] * (len(a) - len(b)) + list(b)
+            else:
+                # Pad zeros at the end for digital (normal order)
+                b = list(b) + [0.0] * (len(a) - len(b))
 
         # Set the model type according to the length of a/b
         model = "Poly" + str(len(a) - 1)
