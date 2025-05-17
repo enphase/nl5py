@@ -284,21 +284,22 @@ class Schematic:
         # Ensure length is between 1 and 5
         if not (1 <= len(a) <= 6):
             raise ValueError("Length of 'a' and 'b' must be between 1 and 5.")
-        
-        # Zero pad b if shorter than a
-        if len(b) < len(a):
-            if analog:
-                # Pad zeros at the front for analog (reverse order)
-                b = [0.0] * (len(a) - len(b)) + list(b)
-            else:
-                # Pad zeros at the end for digital (normal order)
-                b = list(b) + [0.0] * (len(a) - len(b))
 
-        # Set the model type according to the length of a/b
-        model = "Poly" + str(len(a) - 1)
-        self.set_text(name + ".model", model)
-        print(f'model set = {model}')
-        print(f'model read = {self.get_text(name + ".model")}')
+        # Determine the number of coefficients to set (max of a and b length)
+        num_coeff = max(len(a), len(b))
+
+        # Zero pad b and a to num_coeff
+        if analog:
+            b = [0.0] * (num_coeff - len(b)) + list(b)
+        else:
+            b = list(b) + [0.0] * (num_coeff - len(b))
+            a = list(a) + [0.0] * (num_coeff - len(a))
+
+            # Set the model type according to the length of a/b
+            model = "Poly" + str(len(a) - 1)
+            self.set_text(name + ".model", model)
+            print(f'model set = {model}')
+            print(f'model read = {self.get_text(name + ".model")}')
 
        # Set the filter parameters dynamically
         if analog:
