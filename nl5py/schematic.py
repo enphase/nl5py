@@ -294,17 +294,16 @@ class Schematic:
         self.set_text(name, model)
 
         # Set the filter parameters dynamically
-        num_coeff = len(a) + 1
         if analog:
             # Reverse order for analog
-            for i in range(num_coeff):
+            for i in range(len(b)):
                 self.set_value(f"{name}.b{i}", b[len(b) - 1 - i])
-            for i in range(num_coeff):
+            for i in range(len(a)):
                 self.set_value(f"{name}.a{i}", a[len(a) - 1 - i])
         else:
             # Normal order for digital
-            for i in range(num_coeff):
+            for i in range(len(b)):
                 self.set_value(f"{name}.b{i}", b[i])
-            for i in range(num_coeff):
+            for i in range(len(a)):
                 self.set_value(f"{name}.a{i}", a[i])
 
