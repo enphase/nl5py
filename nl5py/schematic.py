@@ -286,7 +286,7 @@ class Schematic:
             raise ValueError("'a' and 'b' must have the same length.")
 
         # Ensure length is between 1 and 5
-        if not (1 <= len(a) <= 5):
+        if not (1 <= len(a) <= 6):
             raise ValueError("Length of 'a' and 'b' must be between 1 and 5.")
         
         # Set the model type according to the length of a/b
