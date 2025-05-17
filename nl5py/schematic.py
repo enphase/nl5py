@@ -293,17 +293,25 @@ class Schematic:
         model = "Poly" + str(len(a))
         self.set_text(name, model)
 
-        # Set the filter parameters dynamically
+       # Set the filter parameters dynamically
         if analog:
             # Reverse order for analog
             for i in range(len(b)):
-                self.set_value(f"{name}.b{i}", b[len(b) - 1 - i])
+                val = b[len(b) - 1 - i]
+                print(f"Setting {name}.b{i} = {val}")
+                self.set_value(f"{name}.b{i}", val)
             for i in range(len(a)):
-                self.set_value(f"{name}.a{i}", a[len(a) - 1 - i])
+                val = a[len(a) - 1 - i]
+                print(f"Setting {name}.a{i} = {val}")
+                self.set_value(f"{name}.a{i}", val)
         else:
             # Normal order for digital
             for i in range(len(b)):
-                self.set_value(f"{name}.b{i}", b[i])
+                val = b[i]
+                print(f"Setting {name}.b{i} = {val}")
+                self.set_value(f"{name}.b{i}", val)
             for i in range(len(a)):
-                self.set_value(f"{name}.a{i}", a[i])
+                val = a[i]
+                print(f"Setting {name}.a{i} = {val}")
+                self.set_value(f"{name}.a{i}", val)
 
