@@ -290,7 +290,7 @@ class Schematic:
             raise ValueError("Length of 'a' and 'b' must be between 1 and 5.")
         
         # Set the model type according to the length of a/b
-        model = "Poly" + str(len(a) - 1)
+        model = "Poly" + str(len(a))
         self.set_text(name + ".model", model)
         print(f'model set = {model}')
         print(f'model read = {self.get_text(name + ".model")}')
