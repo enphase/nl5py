@@ -293,7 +293,7 @@ class Schematic:
         model = "Poly" + str(len(a))
         self.set_text(name, model)
         print(f'model set = {model}')
-        self.get_text(name + ".model")
+        print(f'model read = {self.get_text(name + ".model")}')
 
        # Set the filter parameters dynamically
         if analog:
