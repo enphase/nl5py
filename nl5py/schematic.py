@@ -290,8 +290,8 @@ class Schematic:
             raise ValueError("Length of 'a' and 'b' must be between 1 and 5.")
         
         # Test to see if F(s) block is present if analog is True
-        self.set_text(name + ".roots", "")
-        assert analog, "self.set_text(name + '.roots', '') should only succeed if analog is True"
+        self.set_text(name + ".model", "Roots")
+        assert analog, "This test should only succeed if analog is True"
 
         
         # Set the model type according to the length of a/b
