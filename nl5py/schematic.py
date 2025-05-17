@@ -290,7 +290,7 @@ class Schematic:
             raise ValueError("Length of 'a' and 'b' must be between 1 and 5.")
         
         # Set the model type according to the length of a/b
-        model = "Poly" + str(len(a))
+        model = "Poly" + str(len(a)+1)
         self.set_text(name, model)
 
         # Set the filter parameters dynamically

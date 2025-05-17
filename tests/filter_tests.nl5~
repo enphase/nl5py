@@ -4,40 +4,31 @@
   <c> CAUTION: DO NOT MODIFY THIS FILE !!! </c>
   <c>     ...if you don't know how...      </c>
   <c>======================================</c>
-  <Version ver="3" rev="19" core="80" build="101" date="04/26/2025" ID="65164210" />
+  <Version ver="3" rev="19" core="80" build="101" date="04/26/2025" ID="266526642" />
   <Doc>
     <Cir mode="2">
       <Cmps>
-        <Cmp type="F_S" id="3" name="F1" descr="" view="0" node0="1" node1="2" model="Function" f="1" b0="1" b1="0" b2="0" b3="0" b4="0" b5="0" a0="1" a1="0" a2="0" a3="0" a4="0" a5="0" k="1" roots="" table="1%2c1%2c0%2c10%2c10%2c90" file="" ic="" />
-        <Cmp type="F_Z" id="4" name="F2" descr="" view="0" node0="1" node1="4" model="Function" f="1" b0="1" b1="0" b2="0" b3="0" b4="0" b5="0" a0="1" a1="0" a2="0" a3="0" a4="0" a5="0" k="1" roots="" table="1%2c1%2c0%2c10%2c10%2c90" file="" ic="" />
-        <Cmp type="R_R" id="5" name="R1" descr="" view="0" node0="0" node1="2" model="R" r="1e+3" r_txt="1k" />
-        <Cmp type="R_R" id="6" name="R2" descr="" view="0" node0="0" node1="4" model="R" r="1e+3" r_txt="1k" />
-        <Cmp type="V_V" id="2" name="V1" descr="" view="0" node0="0" node1="1" model="V" v="10" />
+        <Cmp type="C_C" id="1" name="C1" descr="" view="0" node0="0" node1="1" model="C" c="1e-9" ic="" />
+        <Cmp type="R_R" id="3" name="R1" descr="" view="0" node0="1" node1="2" model="R" r="1e+3" />
+        <Cmp type="V_V" id="2" name="V1" descr="" view="0" node0="0" node1="2" model="V" v="10" />
       </Cmps>
       <Sheets activeSheet="0">
         <Sheet name="Sheet1">
           <VC size="32" center_x="0" center_y="0" />
-          <Curs p="8,-8" dir="-1" />
+          <Curs p="-1,1" dir="-1" />
           <Pcts>
-            <Pct type="cmp" id="3" p="-3,-5" dir="0" mir="0" text0="40,-32" text1="40,32" textdir="0" />
-            <Pct type="cmp" id="2" p="-7,-4" dir="1" mir="0" text0="24,-40" text1="42,-40" textdir="0" />
-            <Pct type="cmp" id="4" p="-1,-2" dir="0" mir="0" text0="40,-32" text1="40,32" textdir="0" />
-            <Pct type="cmp" id="5" p="6,-2" dir="1" mir="0" text0="24,-30" text1="40,-30" textdir="0" />
-            <Pct type="cmp" id="6" p="3,-1" dir="1" mir="0" text0="24,-30" text1="40,-30" textdir="0" />
-            <Pct type="dot" p="-4,-5" />
-            <Pct type="gnd" p="-7,-1" dir="1" />
-            <Pct type="gnd" p="6,0" dir="1" />
-            <Pct type="gnd" p="3,1" dir="1" />
-            <Pct type="wire" p0="-7,-5" p1="-4,-5" />
-            <Pct type="wire" p0="-4,-5" p1="-3,-5" />
-            <Pct type="wire" p0="-7,-5" p1="-7,-4" />
-            <Pct type="wire" p0="-4,-5" p1="-4,-2" />
-            <Pct type="wire" p0="0,-5" p1="6,-5" />
-            <Pct type="wire" p0="6,-5" p1="6,-2" />
-            <Pct type="wire" p0="-7,-2" p1="-7,-1" />
-            <Pct type="wire" p0="-4,-2" p1="-1,-2" />
-            <Pct type="wire" p0="2,-2" p1="3,-2" />
-            <Pct type="wire" p0="3,-2" p1="3,-1" />
+            <Pct type="cmp" id="3" p="-2,-5" dir="0" mir="0" text0="32,-20" text1="32,20" textdir="0" />
+            <Pct type="cmp" id="2" p="-3,-4" dir="1" mir="0" text0="24,-40" text1="42,-40" textdir="0" />
+            <Pct type="cmp" id="1" p="1,-4" dir="1" mir="0" text0="24,-34" text1="40,-34" textdir="0" />
+            <Pct type="dot" p="-3,-1" />
+            <Pct type="gnd" p="-3,-1" dir="1" />
+            <Pct type="wire" p0="-3,-5" p1="-2,-5" />
+            <Pct type="wire" p0="-3,-5" p1="-3,-4" />
+            <Pct type="wire" p0="0,-5" p1="1,-5" />
+            <Pct type="wire" p0="1,-5" p1="1,-4" />
+            <Pct type="wire" p0="-3,-2" p1="-3,-1" />
+            <Pct type="wire" p0="1,-2" p1="1,-1" />
+            <Pct type="wire" p0="-3,-1" p1="1,-1" />
           </Pcts>
         </Sheet>
       </Sheets>
@@ -90,11 +81,11 @@
           <Floating monitor="0" state="0" left="0" top="0" width="0" height="0" />
         </Win>
       </TableWindow>
-      <Preview Position="40" Left="0" Right="0" />
+      <Preview Position="40" Left="97" Right="6881367" />
     </Tran>
     <Freq phase="2" phase_ratio="600e-3">
       <Traces />
-      <Settings type="0" list="" test="" from="1e-3" to="1e+3" points="500" scale="0" id="2" alg="0" dcop="false" faf="0.1" fhl="true" fmr="10" fsh="false" tst="0" fchmin="2" />
+      <Settings type="0" list="" test="" from="1e-3" to="1e+3" points="500" scale="0" id="0" alg="0" dcop="false" faf="0.1" fhl="true" fmr="10" fsh="false" tst="0" fchmin="2" />
       <Window>
         <Win visible="false" floating="false">
           <Normal state="0" left="0" top="0" width="0" height="0" />
@@ -132,7 +123,7 @@
     </Freq>
     <Advanced dc="true" sbs="true" to="5" zero="1e-12" ise="false" z0re="50" z0im="0" zparam="" cs="false" s_m="1" s_fs="500e-3" s_ff="1" s_os="125e-3" s_of="250e-3" s_as="15.625e-3" s_af="125e-3" s_cs="125e-3" s_cf="250e-3" css="1e-6" so="false" low="0" high="5" thr="2.5" />
     <Libraries />
-    <Properties title="No+title" revision="1.0" author="Donny+Zimmanck" project="Unknown" organization="Enphase+Energy" comments="" created="9%2f4%2f2024+11%3a44%3a26+AM" modified="5%2f17%2f2025+9%3a08%3a53+AM" save="0" eng_notation="true" />
+    <Properties title="No+title" revision="1.0" author="Donny+Zimmanck" project="Unknown" organization="Enphase+Energy" comments="" created="9%2f4%2f2024+11%3a44%3a26+AM" modified="9%2f4%2f2024+11%3a45%3a10+AM" save="0" eng_notation="true" />
     <CS type="1" x="0" active="true">
       <Win visible="false" floating="false">
         <Normal state="0" left="0" top="0" width="0" height="0" />
