@@ -284,6 +284,10 @@ class Schematic:
         # Ensure length is between 1 and 5
         if not (1 <= len(a) <= 6):
             raise ValueError("Length of 'a' and 'b' must be between 1 and 5.")
+        
+        # Zero pad b if shorter than a
+        if len(b) < len(a):
+            b = list(b) + [0.0] * (len(a) - len(b))
 
         # Set the model type according to the length of a/b
         model = "Poly" + str(len(a) - 1)
