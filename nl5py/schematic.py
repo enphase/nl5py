@@ -261,3 +261,59 @@ class Schematic:
     @check
     def saveas(self, filename):
         NL5_SaveAs(self.circuit, filename.encode())
+    
+    @check
+    def load_filter_params(self, name, b, a, analog=True):
+        """
+        name is the name of the F(s) or F(z) block in the NL5 schematic.
+        b is an array of the numerator values and a is an array of the demonitaor
+        values. Normally these coefficients are calculated using functions from scipy.signal.
+        This function transfers the caclculated coefficients to the NL5 schematic.
+        """
+
+        # Ensure 'analog' is a boolean and either True or False
+        if not isinstance(analog, bool):
+            raise TypeError("analog must be a boolean (True or False).")
+
+        # Ensure 'a' and 'b' are list or numpy array
+        if not isinstance(a, (list, np.ndarray)):
+            raise TypeError("'a' must be a list or numpy array.")
+        if not isinstance(b, (list, np.ndarray)):
+            raise TypeError("'b' must be a list or numpy array.")
+
+        # Ensure 'a' and 'b' have the same length
+        if len(a) != len(b):
+            raise ValueError("'a' and 'b' must have the same length.")
+
+        # Ensure length is between 1 and 5
+        if not (1 <= len(a) <= 5):
+            raise ValueError("Length of 'a' and 'b' must be between 1 and 5.")
+        
+        # Set the model type according to the length of a/b
+        model = "Poly" + str(len(a))
+        self.set_text(name + ".model", model)
+        print(f'model set = {model}')
+        print(f'model read = {self.get_text(name + ".model")}')
+
+       # Set the filter parameters dynamically
+        if analog:
+            # Reverse order for analog
+            for i in range(len(b)):
+                val = b[len(b) - 1 - i]
+                print(f"Setting {name}.b{i} = {val}")
+                self.set_value(f"{name}.b{i}", val)
+            for i in range(len(a)):
+                val = a[len(a) - 1 - i]
+                print(f"Setting {name}.a{i} = {val}")
+                self.set_value(f"{name}.a{i}", val)
+        else:
+            # Normal order for digital
+            for i in range(len(b)):
+                val = b[i]
+                print(f"Setting {name}.b{i} = {val}")
+                self.set_value(f"{name}.b{i}", val)
+            for i in range(len(a)):
+                val = a[i]
+                print(f"Setting {name}.a{i} = {val}")
+                self.set_value(f"{name}.a{i}", val)
+
