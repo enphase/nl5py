@@ -29,7 +29,7 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     package_data={
         # Make sure the NL5 DLL is included in the package
-        "": ["*.dll", "*.h", "*.lib", "*.so"],
+        "": ["*.dll", "*.dylib", "*.h", "*.lib", "*.so"],
     },
     install_requires=["numpy", "pandas", "importlib-resources"],
     extras_require={
