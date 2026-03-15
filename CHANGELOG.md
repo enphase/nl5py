@@ -11,6 +11,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Changes
 ### Added
 
+## [0.1.6]
+
+### Fixed
+-Fixed .gitignore not to ignore the .so files from the DLLs
+### Changes
+### Added
+-Add support for enable/disable of components
+
 ## v0.1.5
 
 ### Fixed

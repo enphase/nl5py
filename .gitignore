@@ -3,8 +3,12 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-# C extensions
-
+# C extensions (limit ignores to build outputs instead of all *.so)
+build/**/*.so
+dist/**/*.so
+.eggs/**/*.so
+wheels/**/*.so
+**/__pycache__/
 
 # Distribution / packaging
 .Python

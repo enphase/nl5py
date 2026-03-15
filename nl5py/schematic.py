@@ -17,6 +17,7 @@ import numpy as np
 from .nl5_dll.commands import *
 import ctypes as ct
 
+
 # decorator which will check for NL5 errors
 def check(func):
     def checked(*args, **kwargs):
@@ -37,13 +38,31 @@ class Schematic:
     def __init__(self, filename):
         self.circuit = NL5_Open(filename.encode())
 
+    # ---------- Component enable/disable ----------
+    @check
+    def enable_component(self, name):
+        NL5_EnableCmp(self.circuit, name.encode())
+
+    @check
+    def disable_component(self, name):
+        NL5_DisableCmp(self.circuit, name.encode())
+
+    def enable_components(self, names):
+        for name in names:
+            self.enable_component(name)
+
+    def disable_components(self, names):
+        for name in names:
+            self.disable_component(name)
+
+    # ---------- Parameters / properties ----------
     @check
     def set_value(self, name, value):
         NL5_SetValue(self.circuit, name.encode(), value)
 
     @check
     def set_text(self, name, text):
-        NL5_SetText(self.circuit, f"{name}".encode(), text.encode())
+        NL5_SetText(self.circuit, name.encode(), text.encode())
 
     @check
     def get_value(self, name):
@@ -57,10 +76,16 @@ class Schematic:
         NL5_GetText(self.circuit, name.encode(), text, length)
         return text.value.decode("utf-8")
 
+    # ---------- Transient simulation ----------
     @check
     def simulate_transient(self, screen, step):
         NL5_SetStep(self.circuit, step)
         NL5_Start(self.circuit)
+        NL5_Simulate(self.circuit, screen)
+
+    @check
+    def continue_transient(self, screen, step):
+        NL5_SetStep(self.circuit, step)
         NL5_Simulate(self.circuit, screen)
 
     @check
@@ -70,16 +95,11 @@ class Schematic:
         NL5_SimulateInterval(self.circuit, screen)
 
     @check
-    def continue_transient(self, screen, step):
-        NL5_SetStep(self.circuit, step)
-        NL5_Simulate(self.circuit, screen)
-
-    @check
     def continue_interval(self, screen, step):
         NL5_SetStep(self.circuit, step)
         NL5_SimulateInterval(self.circuit, screen)
-    
 
+    # ---------- Traces ----------
     def get_trace_names(self, length=100):
         num_traces = NL5_GetTracesSize(self.circuit)
         trace_names = num_traces * [""]
@@ -103,7 +123,7 @@ class Schematic:
             "Data": NL5_AddDataTrace,
         }[trace_type]
 
-        func(self.circuit, f"{name}".encode())
+        func(self.circuit, name.encode())
 
     @check
     def delete_trace(self, name):
@@ -112,7 +132,7 @@ class Schematic:
 
     def clear_traces(self):
         trace_number = NL5_GetTraceAt(self.circuit, 0)
-        while trace_number >= 0:
+        while trace_number >= 0:  # fix HTML artifact
             NL5_DeleteTrace(self.circuit, trace_number)
             trace_number = NL5_GetTraceAt(self.circuit, 0)
 
@@ -129,7 +149,7 @@ class Schematic:
         NL5_GetDataAt(self.circuit, trace_number, n, t, data)
 
         return t.value, data.value
-    
+
     @check
     def get_last_data(self, trace):
         trace_number = self.get_trace_number(trace)
@@ -170,6 +190,7 @@ class Schematic:
 
         return data
 
+    # ---------- AC analysis ----------
     @check
     def set_ac_source(self, name):
         NL5_SetACSource(self.circuit, name.encode())
@@ -183,7 +204,7 @@ class Schematic:
             "Func": NL5_AddFuncACTrace,
         }[trace_type]
 
-        func(self.circuit, f"{name}".encode())
+        func(self.circuit, name.encode())
 
     @check
     def add_z_trace(self):
@@ -254,6 +275,7 @@ class Schematic:
             [self.get_ac_trace_data(trace) for trace in traces], axis=1, sort=True
         ).ffill()
 
+    # ---------- File ops ----------
     @check
     def save(self):
         NL5_Save(self.circuit)
@@ -261,59 +283,3 @@ class Schematic:
     @check
     def saveas(self, filename):
         NL5_SaveAs(self.circuit, filename.encode())
-    
-    @check
-    def load_filter_params(self, name, b, a, analog=True):
-        """
-        name is the name of the F(s) or F(z) block in the NL5 schematic.
-        b is an array of the numerator values and a is an array of the demonitaor
-        values. Normally these coefficients are calculated using functions from scipy.signal.
-        This function transfers the caclculated coefficients to the NL5 schematic.
-        """
-
-        # Ensure 'analog' is a boolean and either True or False
-        if not isinstance(analog, bool):
-            raise TypeError("analog must be a boolean (True or False).")
-
-        # Ensure 'a' and 'b' are list or numpy array
-        if not isinstance(a, (list, np.ndarray)):
-            raise TypeError("'a' must be a list or numpy array.")
-        if not isinstance(b, (list, np.ndarray)):
-            raise TypeError("'b' must be a list or numpy array.")
-
-        # Ensure 'a' and 'b' have the same length
-        if len(a) != len(b):
-            raise ValueError("'a' and 'b' must have the same length.")
-
-        # Ensure length is between 1 and 5
-        if not (1 <= len(a) <= 5):
-            raise ValueError("Length of 'a' and 'b' must be between 1 and 5.")
-        
-        # Set the model type according to the length of a/b
-        model = "Poly" + str(len(a))
-        self.set_text(name + ".model", model)
-        print(f'model set = {model}')
-        print(f'model read = {self.get_text(name + ".model")}')
-
-       # Set the filter parameters dynamically
-        if analog:
-            # Reverse order for analog
-            for i in range(len(b)):
-                val = b[len(b) - 1 - i]
-                print(f"Setting {name}.b{i} = {val}")
-                self.set_value(f"{name}.b{i}", val)
-            for i in range(len(a)):
-                val = a[len(a) - 1 - i]
-                print(f"Setting {name}.a{i} = {val}")
-                self.set_value(f"{name}.a{i}", val)
-        else:
-            # Normal order for digital
-            for i in range(len(b)):
-                val = b[i]
-                print(f"Setting {name}.b{i} = {val}")
-                self.set_value(f"{name}.b{i}", val)
-            for i in range(len(a)):
-                val = a[i]
-                print(f"Setting {name}.a{i} = {val}")
-                self.set_value(f"{name}.a{i}", val)
-
