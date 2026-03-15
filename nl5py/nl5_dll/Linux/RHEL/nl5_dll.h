@@ -41,6 +41,9 @@ IMP_EXP int NL5_SetParamValue(int ncir, int npar, double v);
 IMP_EXP int NL5_GetParamText(int ncir, int npar, char* text, int length);
 IMP_EXP int NL5_SetParamText(int ncir, int npar, char* text);
 
+IMP_EXP int NL5_DisableCmp(int ncir, char* name);  // New function 09/30/24
+IMP_EXP int NL5_EnableCmp(int ncir, char* name);   // New function 09/30/24
+
 IMP_EXP int NL5_AddVTrace(int ncir, char* name);
 IMP_EXP int NL5_AddITrace(int ncir, char* name);
 IMP_EXP int NL5_AddPTrace(int ncir, char* name);
@@ -53,6 +56,7 @@ IMP_EXP int NL5_GetTraceAt(int ncir, int i);    // New function 08/28/24
 IMP_EXP int NL5_GetTrace(int ncir, char* name);
 IMP_EXP int NL5_GetTraceName(int ncir, int ntrace, char* name, int length);  // New function 08/28/24
 IMP_EXP int NL5_DeleteTrace(int ncir, int ntrace);
+IMP_EXP int NL5_DeleteAllTraces(int ncir);      // New function 09/24/24
 
 IMP_EXP int NL5_SetTimeout(int ncir, int t);
 IMP_EXP int NL5_SetStep(int ncir, double step);
@@ -82,7 +86,7 @@ IMP_EXP int NL5_DeleteData(int ncir, int trace);
 IMP_EXP int NL5_AddVACTrace(int ncir, char* name);       // New function 08/28/24
 IMP_EXP int NL5_AddIACTrace(int ncir, char* name);       // New function 08/28/24
 IMP_EXP int NL5_AddFuncACTrace(int ncir, char* text);    // New function 08/28/24
-IMP_EXP int NL5_AddZACTrace(int ncir);                   // New function 08/28/24
+IMP_EXP int NL5_AddZACTrace(int ncir, char* name);       // Changed 11/28/24
 IMP_EXP int NL5_AddGammaACTrace(int ncir);               // New function 08/28/24
 IMP_EXP int NL5_AddVSWRACTrace(int ncir);                // New function 08/28/24
 IMP_EXP int NL5_AddLoopACTrace(int ncir);                // New function 08/28/24
@@ -92,6 +96,7 @@ IMP_EXP int NL5_GetACTraceAt(int ncir, int i);           // New function 08/28/2
 IMP_EXP int NL5_GetACTrace(int ncir, char* name);
 IMP_EXP int NL5_GetACTraceName(int ncir, int ntrace, char* name, int length);  // New function 08/28/24
 IMP_EXP int NL5_DeleteACTrace(int ncir, int ntrace);     // New function 08/28/24
+IMP_EXP int NL5_DeleteAllACTraces(int ncir);             // New function 09/24/24
 
 IMP_EXP int NL5_SetACSource(int ncir, char* name);        
 IMP_EXP int NL5_SetAC(int ncir, double from, double to, int points, int scale);   
