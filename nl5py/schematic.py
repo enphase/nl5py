@@ -17,6 +17,7 @@ import numpy as np
 from .nl5_dll.commands import *
 import ctypes as ct
 
+
 # decorator which will check for NL5 errors
 def check(func):
     def checked(*args, **kwargs):
@@ -36,6 +37,22 @@ class Schematic:
     @check
     def __init__(self, filename):
         self.circuit = NL5_Open(filename.encode())
+
+    @check
+    def enable_component(self, name):
+        NL5_EnableCmp(self.circuit, name.encode())
+
+    @check
+    def disable_component(self, name):
+        NL5_DisableCmp(self.circuit, name.encode())
+
+    def enable_components(self, names):
+        for name in names:
+            self.enable_component(name)
+
+    def disable_components(self, names):
+        for name in names:
+            self.disable_component(name)
 
     @check
     def set_value(self, name, value):

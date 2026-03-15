@@ -74,6 +74,20 @@ def NL5_SaveAs(ncir, name):
     return nl5_lib.NL5_SaveAs(ncir, name)
 
 
+# New function 09/30/24
+def NL5_EnableCmp(ncir, name):
+    nl5_lib.NL5_EnableCmp.argtypes = [ct.c_int, ct.c_char_p]
+    nl5_lib.NL5_SaveAs.restype = ct.c_int
+    nl5_lib.NL5_EnableCmp(ncir, name)
+
+
+# New function 09/30/24
+def NL5_DisableCmp(ncir, name):
+    nl5_lib.NL5_DisableCmp.argtypes = [ct.c_int, ct.c_char_p]
+    nl5_lib.NL5_SaveAs.restype = ct.c_int
+    nl5_lib.NL5_DisableCmp(ncir, name)
+
+
 def NL5_GetValue(ncir, name, v):
     nl5_lib.NL5_GetValue.argtypes = [ct.c_int, ct.c_char_p, ct.POINTER(ct.c_double)]
     nl5_lib.NL5_GetValue.restype = ct.c_int
