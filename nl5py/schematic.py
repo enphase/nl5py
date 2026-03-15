@@ -38,6 +38,7 @@ class Schematic:
     def __init__(self, filename):
         self.circuit = NL5_Open(filename.encode())
 
+    # ---------- Component enable/disable ----------
     @check
     def enable_component(self, name):
         NL5_EnableCmp(self.circuit, name.encode())
@@ -54,13 +55,14 @@ class Schematic:
         for name in names:
             self.disable_component(name)
 
+    # ---------- Parameters / properties ----------
     @check
     def set_value(self, name, value):
         NL5_SetValue(self.circuit, name.encode(), value)
 
     @check
     def set_text(self, name, text):
-        NL5_SetText(self.circuit, f"{name}".encode(), text.encode())
+        NL5_SetText(self.circuit, name.encode(), text.encode())
 
     @check
     def get_value(self, name):
@@ -74,6 +76,7 @@ class Schematic:
         NL5_GetText(self.circuit, name.encode(), text, length)
         return text.value.decode("utf-8")
 
+    # ---------- Transient simulation ----------
     @check
     def simulate_transient(self, screen, step):
         NL5_SetStep(self.circuit, step)
@@ -85,6 +88,18 @@ class Schematic:
         NL5_SetStep(self.circuit, step)
         NL5_Simulate(self.circuit, screen)
 
+    @check
+    def simulate_interval(self, screen, step):
+        NL5_SetStep(self.circuit, step)
+        NL5_Start(self.circuit)
+        NL5_SimulateInterval(self.circuit, screen)
+
+    @check
+    def continue_interval(self, screen, step):
+        NL5_SetStep(self.circuit, step)
+        NL5_SimulateInterval(self.circuit, screen)
+
+    # ---------- Traces ----------
     def get_trace_names(self, length=100):
         num_traces = NL5_GetTracesSize(self.circuit)
         trace_names = num_traces * [""]
@@ -108,7 +123,7 @@ class Schematic:
             "Data": NL5_AddDataTrace,
         }[trace_type]
 
-        func(self.circuit, f"{name}".encode())
+        func(self.circuit, name.encode())
 
     @check
     def delete_trace(self, name):
@@ -117,7 +132,7 @@ class Schematic:
 
     def clear_traces(self):
         trace_number = NL5_GetTraceAt(self.circuit, 0)
-        while trace_number >= 0:
+        while trace_number >= 0:  # fix HTML artifact
             NL5_DeleteTrace(self.circuit, trace_number)
             trace_number = NL5_GetTraceAt(self.circuit, 0)
 
@@ -132,6 +147,16 @@ class Schematic:
         t = ct.c_double()
         data = ct.c_double()
         NL5_GetDataAt(self.circuit, trace_number, n, t, data)
+
+        return t.value, data.value
+
+    @check
+    def get_last_data(self, trace):
+        trace_number = self.get_trace_number(trace)
+
+        t = ct.c_double()
+        data = ct.c_double()
+        NL5_GetLastData(self.circuit, trace_number, t, data)
 
         return t.value, data.value
 
@@ -165,6 +190,7 @@ class Schematic:
 
         return data
 
+    # ---------- AC analysis ----------
     @check
     def set_ac_source(self, name):
         NL5_SetACSource(self.circuit, name.encode())
@@ -178,7 +204,7 @@ class Schematic:
             "Func": NL5_AddFuncACTrace,
         }[trace_type]
 
-        func(self.circuit, f"{name}".encode())
+        func(self.circuit, name.encode())
 
     @check
     def add_z_trace(self):
@@ -249,6 +275,7 @@ class Schematic:
             [self.get_ac_trace_data(trace) for trace in traces], axis=1, sort=True
         ).ffill()
 
+    # ---------- File ops ----------
     @check
     def save(self):
         NL5_Save(self.circuit)
