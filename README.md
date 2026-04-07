@@ -142,16 +142,42 @@ The `Schematic` class also supports AC simulations, which work in much the same 
 
 ```python
 # set the AC source
-schematic.set_ac_source("I1")
+schematic.set_ac_source("V1")
+```
 
-# add AC traces
-# TODO: Does not yet appear to be supported by DLL API
+AC traces can be added using the `add_ac_trace` method, which supports the following trace types:
 
-# run simulation
+| trace_type | Description |
+| ---------- | ----------- |
+| "V"        | Voltage     |
+| "I"        | Current     |
+| "Func"     | Function    |
+
+If no trace type is specified, it defaults to "Function".
+
+```python
+schematic.add_ac_trace(name="C1", trace_type="V")  # add the voltage on C1
+schematic.add_ac_trace(name="C1", trace_type="I")  # add the current on C1
+schematic.add_ac_trace(name="V(C1)+V(C2)")         # add a function trace
+```
+
+Additional specialized AC traces are also available:
+
+```python
+schematic.add_vswr_trace()    # VSWR
+schematic.add_loop_trace()    # loop gain
+```
+
+Running an AC simulation is done using the `simulate_ac` method.
+
+```python
 schematic.simulate_ac(start_frequency=1e3, stop_frequency=1e6, num_points=5000)
+```
 
-# extract data
-data = schematic.get_ac_data(traces=["V(1)", "V(2)"])
+After a simulation has completed, data can be extracted using `get_ac_data`.
+
+```python
+data = schematic.get_ac_data(traces=["V(C1)", "I(C1)"])
 ```
 
 The data returned from `get_ac_data` is a hierarchical index'd data frame with magnitude and phase info for each signal.
@@ -161,7 +187,7 @@ print(data.head())
 ```
 
 ```
-            V(1)                       V(2)                               
+            V(C1)                      I(C1)
             magnitude       phase      magnitude       phase
 1000.000000  0.009758  179.121846       0.009758  179.121846
 1199.839968  0.014131  178.946299       0.014131  178.946299

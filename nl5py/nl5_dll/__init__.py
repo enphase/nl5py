@@ -12,6 +12,7 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 
+import sys
 import platform
 from importlib_resources import files
 import ctypes as ct
@@ -31,17 +32,18 @@ def get_library(operating_system):
             return ct.cdll.LoadLibrary(
                 str(files(f"nl5py.nl5_dll.Linux.RHEL").joinpath("nl5_dll.so"))
             )
-    elif "Darwin" in operating_system:
-        if "arm" in operating_system:
+    elif "darwin" in operating_system:
+        machine = platform.machine()
+        if "arm" in machine:
             return ct.cdll.LoadLibrary(
-                str(files(f"nl5py.nl5_dll.macOS.arm64").joinpath("nl5_dll.dll"))
+                str(files(f"nl5py.nl5_dll.macOS.arm64").joinpath("nl5_dll.dylib"))
             )
         else:
             return ct.cdll.LoadLibrary(
-                str(files(f"nl5py.nl5_dll.macOS.x64").joinpath("nl5_dll.dll"))
+                str(files(f"nl5py.nl5_dll.macOS.x64").joinpath("nl5_dll.dylib"))
             )
 
     raise Exception(f"{operating_system} not supported")
 
 
-nl5_lib = get_library(platform.platform())
+nl5_lib = get_library(sys.platform)
