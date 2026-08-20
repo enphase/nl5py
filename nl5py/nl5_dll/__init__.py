@@ -32,7 +32,7 @@ def get_library(operating_system):
             return ct.cdll.LoadLibrary(
                 str(files(f"nl5py.nl5_dll.Linux.RHEL").joinpath("nl5_dll.so"))
             )
-    elif "darwin" in operating_system:
+    elif "macOS" in operating_system:
         machine = platform.machine()
         if "arm" in machine:
             return ct.cdll.LoadLibrary(
@@ -46,4 +46,4 @@ def get_library(operating_system):
     raise Exception(f"{operating_system} not supported")
 
 
-nl5_lib = get_library(sys.platform)
+nl5_lib = get_library(platform.platform())
