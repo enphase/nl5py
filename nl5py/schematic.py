@@ -162,18 +162,59 @@ class Schematic:
 
     @check
     def get_trace_data(self, trace):
+        nl5_lib.NL5_GetDataAt.argtypes = (
+            ct.c_int,
+            ct.c_int,
+            ct.c_int,
+            ct.POINTER(ct.c_double),
+            ct.POINTER(ct.c_double),
+        )
+        nl5_lib.NL5_GetDataAt.restype = ct.c_int
         trace_number = self.get_trace_number(trace)
+        sample_count = NL5_GetDataSize(self.circuit, trace_number)
 
-        # get the data length
-        n = NL5_GetDataSize(self.circuit, trace_number)
+        if sample_count < 0:
+            raise RuntimeError(
+                f"NL5_GetDataSize failed for trace {trace!r}"
+            )
 
-        # extract the data
-        data = np.empty((2, n))
-        for i in range(n):
-            data[:, i] = self.get_data_at(trace, i)
+        times = np.empty(sample_count, dtype=np.float64)
+        values = np.empty(sample_count, dtype=np.float64)
 
-        # convert to a pandas series
-        return pd.Series(index=data[0, :], data=data[1, :], name=trace)
+        time_out = ct.c_double()
+        value_out = ct.c_double()
+
+        # Create these once rather than once per iteration.
+        time_ptr = ct.byref(time_out)
+        value_ptr = ct.byref(value_out)
+
+        get_data_at = nl5_lib.NL5_GetDataAt
+        circuit = self.circuit
+
+        for index in range(sample_count):
+            status = get_data_at(
+                circuit,
+                trace_number,
+                index,
+                time_ptr,
+                value_ptr,
+            )
+
+            if status < 0:
+                raise RuntimeError(
+                    "NL5_GetDataAt failed for "
+                    f"trace {trace!r} at index {index}"
+                )
+
+            times[index] = time_out.value
+            values[index] = value_out.value
+
+        return pd.Series(
+            data=values,
+            index=times,
+            name=trace,
+            copy=False,
+        )
 
     def get_data(self, traces=None, fill=True):
         # if no traces are specified, assume user wants all traces

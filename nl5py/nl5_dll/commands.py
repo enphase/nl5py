@@ -404,7 +404,7 @@ def NL5_AddZACTrace(ncir):
 
 def NL5_AddGammaACTrace(ncir):
     nl5_lib.NL5_AddGammaACTrace.argtypes = [ct.c_int]
-    nl5_lib.AddGammaACTrace.restype = ct.c_int
+    nl5_lib.NL5_AddGammaACTrace.restype = ct.c_int
     return nl5_lib.NL5_AddGammaACTrace(ncir)
 
 
